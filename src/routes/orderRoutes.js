@@ -73,7 +73,6 @@ router.put("/:orderId", async (req, res) => {
     if (error.code === "P2025") {
       return res.status(404).json({ error: "Order not found." });
     }
-    console.error("Error updating order:", error);
     return res.status(500).json({ error: "Failed to update order." });
   }
 });
