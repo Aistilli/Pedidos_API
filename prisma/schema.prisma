@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  orderId      String   @unique
+  value        Float
+  creationDate DateTime
+  items        Item[]
+
+  @@map("orders")
+}
+
+model Item {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  productId Int
+  quantity  Int
+  price     Float
+  orderId   String @db.ObjectId
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("items")
+}
